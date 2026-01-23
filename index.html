@@ -66,9 +66,6 @@
       height: 50px;
       border-radius: 10px;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background: #111;
     }
 
@@ -83,12 +80,18 @@
       font-weight: bold;
     }
 
-    /* For mobile */
+    .message {
+      margin-top: 20px;
+      font-size: 16px;
+      opacity: 0.8;
+      text-align: center;
+      min-height: 20px;
+    }
+
     @media (max-width: 600px) {
       .title {
         font-size: 20px;
       }
-
       .channel-text {
         font-size: 16px;
       }
@@ -98,45 +101,45 @@
 <body>
 
   <div class="logo">
-    <!-- Replace with your MTV Afterlife logo -->
     <img src="mtv-afterlife-logo.png" alt="MTV Afterlife Logo">
   </div>
 
   <div class="title">Choose your channel:</div>
 
   <div class="buttons">
-    <a class="channel-btn" href="#" onclick="almostReady()">
+
+    <!-- 90s goes to its page -->
+    <a class="channel-btn" href="/90s.html">
       <div class="channel-logo">
-        <!-- Replace with your 90s channel logo -->
         <img src="mtv-afterlife-90s-logo.png" alt="90s Logo">
       </div>
       <div class="channel-text">MTV Afterlife 90s</div>
     </a>
 
-    <a class="channel-btn" href="#" onclick="comingSoon()">
+    <!-- Coming soon buttons -->
+    <div class="channel-btn" onclick="comingSoon()">
       <div class="channel-logo">
-        <!-- Replace with your 80s channel logo -->
         <img src="mtv-afterlife-80s-logo.png" alt="80s Logo">
       </div>
       <div class="channel-text">MTV Afterlife 80s</div>
-    </a>
+    </div>
 
-    <a class="channel-btn" href="#" onclick="comingSoon()">
+    <div class="channel-btn" onclick="comingSoon()">
       <div class="channel-logo">
-        <!-- Replace with your 00s channel logo -->
         <img src="mtv-afterlife-00s-logo.png" alt="00s Logo">
       </div>
       <div class="channel-text">MTV Afterlife 00s</div>
-    </a>
+    </div>
+
   </div>
+
+  <!-- message area -->
+  <div class="message" id="message"></div>
 
   <script>
     function comingSoon() {
-      alert("Coming Soon!");
-    }
-
-    function almostReady() {
-      alert("This will be the first channel that will launch by MTV Afterlife! It is planned to be launched on Friday or Saturday. Stay tuned!");
+      document.getElementById("message").textContent =
+        "Coming soon!";
     }
   </script>
 
