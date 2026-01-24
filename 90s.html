@@ -1,30 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MTV Afterlife 90s</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    img {
-      max-width: 90%;
-      height: auto;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MTV Afterlife 90s - LIVE</title>
+<style>
+  body {
+    margin: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  #video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
+  #playBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 26px;
+    background: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
 
-  <!-- Replace staytuned.png with YOUR image filename -->
-  <img src="assets/images/staytuned-6pm.png" alt="MTV Afterlife 90s - Stay Tuned">
+<video id="video"></video>
+<button id="playBtn">PLAY</button>
+
+<script>
+const video = document.getElementById("video");
+const playBtn = document.getElementById("playBtn");
+
+// ======================
+// LAUNCH SEQUENCE VIDEOS
+// ======================
+const launch = [
+  { name: "Countdown", url: "https://ia600306.us.archive.org/28/items/mtv-afterlife-90s-launchvids/Countdown.mp4", duration: 63 },
+  { name: "Bumper1", url: "https://ia600100.us.archive.org/7/items/mtv-afterlife-90s-bumpers/bumper1.mp4", duration: 31 },
+  { name: "Song12", url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song12.mp4", duration: 224 },
+  { name: "TalkSegment", url: "https://ia600306.us.archive.org/28/items/mtv-afterlife-90s-launchvids/Talk%20Segment.mp4", duration: 83 },
+  { name: "Song1", url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song1.mp4", duration: 219 },
+  { name: "SwitchTo247", url: "https://ia600306.us.archive.org/28/items/mtv-afterlife-90s-launchvids/Switch%20to%2024-7.mp4", duration: 4 }
+];
+
+const launchTotal = launch.reduce((a, b) => a + b.duration, 0);
+
+// ======================
+// 24/7 PLAYLIST (songs + ads + bumpers)
+// ======================
+const songs = [
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song1.mp4", duration: 219 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song2.mp4", duration: 209 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song3.mp4", duration: 212 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song4.mp4", duration: 211 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song5.mp4", duration: 201 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song6.mp4", duration: 203 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song7.mp4", duration: 241 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song8.mp4", duration: 214 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song9.mp4", duration: 197 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song10.mp4", duration: 230 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song11.mp4", duration: 227 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song12.mp4", duration: 224 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song13.mp4", duration: 211 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song14.mp4", duration: 239 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song15.mp4", duration: 241 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song16.mp4", duration: 222 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song17.mp4", duration: 230 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song18.mp4", duration: 225 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song19.mp4", duration: 230 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song20.mp4", duration: 218 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song21.mp4", duration: 202 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song22.mp4", duration: 222 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song23.mp4", duration: 236 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song24.mp4", duration: 241 },
+  { url: "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song25.mp4", duration: 244 }
+];
+
+const ads = [
+  { url: "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad1.mp4", duration: 32 },
+  { url: "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad2.mp4", duration: 30 },
+  { url: "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad3.mp4", duration: 30 },
+  { url: "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad4.mp4", duration: 31 }
+];
+
+const bumper = { url: "https://ia600100.us.archive.org/7/items/mtv-afterlife-90s-bumpers/bumper1.mp4", duration: 31 };
+
+// ======================
+// LAUNCH DATE (FORCE IT TO START NOW)
+// ======================
+const launchDate = new Date(Date.now() - 60 * 1000);
+
+// ======================
+// FUNCTIONS
+// ======================
+function getSecondsSinceLaunch() {
+  const now = new Date();
+  return Math.max(0, Math.floor((now - launchDate) / 1000));
+}
+
+function getLaunchVideo(seconds) {
+  let time = 0;
+  for (let i = 0; i < launch.length; i++) {
+    time += launch[i].duration;
+    if (seconds < time) {
+      const start = time - launch[i].duration;
+      return { video: launch[i], start };
+    }
+  }
+  return null;
+}
+
+function get247Video(seconds) {
+  // 2 songs -> bumper -> 1 song -> ad -> repeat
+  const cycle = [
+    songs[0],
+    songs[1],
+    bumper,
+    songs[2],
+    ads[0]
+  ];
+
+  const cycleDuration = cycle.reduce((a, b) => a + b.duration, 0);
+  let timeInCycle = seconds % cycleDuration;
+
+  let time = 0;
+  for (let i = 0; i < cycle.length; i++) {
+    time += cycle[i].duration;
+    if (timeInCycle < time) {
+      const start = time - cycle[i].duration;
+      return { video: cycle[i], start };
+    }
+  }
+  return null;
+}
+
+function startLive() {
+  const secondsSinceLaunch = getSecondsSinceLaunch();
+  let result;
+
+  if (secondsSinceLaunch < launchTotal) {
+    result = getLaunchVideo(secondsSinceLaunch);
+  } else {
+    result = get247Video(secondsSinceLaunch - launchTotal);
+  }
+
+  if (!result) return;
+
+  video.src = result.video.url;
+
+  video.addEventListener("loadedmetadata", function () {
+    video.currentTime = result.start;
+    video.play();
+  }, { once: true });
+}
+
+// User click required for autoplay
+playBtn.addEventListener("click", () => {
+  playBtn.style.display = "none";
+  startLive();
+});
+
+startLive();
+</script>
 
 </body>
-</html>
+  </html>
