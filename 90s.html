@@ -3,27 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTV Afterlife 90s - Stay Tuned</title>
+<title>MTV Afterlife 90s - LAUNCH</title>
 <style>
   body {
     margin: 0;
     background: black;
+    overflow: hidden;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
   }
-  img {
+
+  video {
     width: 100vw;
     height: 100vh;
-    object-fit: cover;
+    object-fit: contain; /* <-- FIXED */
+  }
+
+  #mtvLogo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 120px;
+    z-index: 10;
+  }
+
+  #fullscreenBtn {
+    position: absolute;
+    bottom: 90px;
+    right: 15px;
+    padding: 10px 15px;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  #playBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 30px;
+    font-size: 26px;
+    background: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 10;
   }
 </style>
 </head>
 <body>
 
-<img src="assets/images/staytuned-ohsh.png" alt="Stay Tuned">
+<img id="mtvLogo" src="mtv-afterlife-90s-bug.png" alt="MTV Logo">
+<video id="video" playsinline></video>
+
+<button id="playBtn">PLAY</button>
+<button id="fullscreenBtn">FULLSCREEN</button>
+
+<script>
+const video = document.getElementById("video");
+const playBtn = document.getElementById("playBtn");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+// LAUNCH SEQUENCE
+const launch = [
+  "https://ia600306.us.archive.org/28/items/mtv-afterlife-90s-launchvids/Countdown.mp4",
+  "https://ia600100.us.archive.org/7/items/mtv-afterlife-90s-bumpers/bumper1.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song12.mp4",
+  "https://ia600306.us.archive.org/28/items/mtv-afterlife-90s-launchvids/Talk%20Segment.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song1.mp4",
+  "https://ia600306.us.archive.org/28/items/mtv-afterlife-90s-launchvids/Switch%20to%2024-7.mp4"
+];
+
+let index = 0;
+
+function playNext() {
+  if (index >= launch.length) {
+    video.pause();
+    return;
+  }
+
+  video.src = launch[index];
+  video.play();
+  index++;
+}
+
+// Play next video automatically when current ends
+video.addEventListener("ended", playNext);
+
+// PLAY button
+playBtn.addEventListener("click", () => {
+  playBtn.style.display = "none";
+  playNext();
+});
+
+// Fullscreen button
+fullscreenBtn.addEventListener("click", () => {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else {
+    document.documentElement.requestFullscreen();
+  }
+});
+
+// Hide fullscreen button when in fullscreen
+document.addEventListener("fullscreenchange", () => {
+  if (document.fullscreenElement) {
+    fullscreenBtn.style.display = "none";
+  } else {
+    fullscreenBtn.style.display = "block";
+  }
+});
+</script>
 
 </body>
 </html>
