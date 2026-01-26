@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTV Afterlife 90s - LAUNCH</title>
+<title>MTV Afterlife 90s - 24/7</title>
 <style>
   body {
     margin: 0;
@@ -19,7 +19,7 @@
   video {
     width: 100vw;
     height: 100vh;
-    object-fit: contain; /* <-- FIXED */
+    object-fit: contain;
   }
 
   #mtvLogo {
@@ -73,31 +73,79 @@ const video = document.getElementById("video");
 const playBtn = document.getElementById("playBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 
-// LAUNCH SEQUENCE
-const launch = [
-  "https://ia600306.us.archive.org/28/items/mtv-afterlife-90s-launchvids/Countdown.mp4",
-  "https://ia600100.us.archive.org/7/items/mtv-afterlife-90s-bumpers/bumper1.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song12.mp4",
-  "https://ia600306.us.archive.org/28/items/mtv-afterlife-90s-launchvids/Talk%20Segment.mp4",
+// SONGS (25)
+const songs = [
   "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song1.mp4",
-  "https://ia600306.us.archive.org/28/items/mtv-afterlife-90s-launchvids/Switch%20to%2024-7.mp4"
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song2.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song3.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song4.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song5.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song6.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song7.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song8.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song9.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song10.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song11.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song12.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song13.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song14.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song15.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song16.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song17.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song18.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song19.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song20.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song21.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song22.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song23.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song24.mp4",
+  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song25.mp4"
 ];
 
-let index = 0;
+// ADS (4)
+const ads = [
+  "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad1.mp4",
+  "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad2.mp4",
+  "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad3.mp4",
+  "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad4.mp4"
+];
 
-function playNext() {
-  if (index >= launch.length) {
-    video.pause();
-    return;
-  }
+// BUMPER (1)
+const bumpers = [
+  "https://ia600100.us.archive.org/7/items/mtv-afterlife-90s-bumpers/bumper1.mp4"
+];
 
-  video.src = launch[index];
-  video.play();
-  index++;
+// ===== TV LOOP =====
+function getRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// Play next video automatically when current ends
-video.addEventListener("ended", playNext);
+function playNext() {
+  // TV-style order:
+  // 2 songs → bumper → 1 song → ad → repeat
+  const order = [
+    getRandom(songs),
+    getRandom(songs),
+    getRandom(bumpers),
+    getRandom(songs),
+    getRandom(ads)
+  ];
+
+  let i = 0;
+
+  function playItem() {
+    if (i >= order.length) {
+      playNext(); // restart loop
+      return;
+    }
+    video.src = order[i];
+    video.play();
+    i++;
+  }
+
+  video.addEventListener("ended", playItem, { once: true });
+  playItem();
+}
 
 // PLAY button
 playBtn.addEventListener("click", () => {
