@@ -115,45 +115,44 @@ const bumpers = [
   "https://ia600100.us.archive.org/7/items/mtv-afterlife-90s-bumpers/bumper1.mp4"
 ];
 
-// ===== TV LOOP =====
+let index = 0;
+let playlist = [];
+
+// RANDOM SELECT
 function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function playNext() {
-  // TV-style order:
-  // 2 songs → bumper → 1 song → ad → repeat
-  const order = [
-    getRandom(songs),
-    getRandom(songs),
-    getRandom(bumpers),
-    getRandom(songs),
-    getRandom(ads)
+// CREATE PLAYLIST WITH THE CORRECT PATTERN
+function createPlaylist() {
+  playlist = [
+    getRandom(songs),   // song 1
+    getRandom(songs),   // song 2
+    getRandom(ads),     // ad
+    getRandom(songs),   // song 3
+    getRandom(bumpers)  // bumper
   ];
-
-  let i = 0;
-
-  function playItem() {
-    if (i >= order.length) {
-      playNext(); // restart loop
-      return;
-    }
-    video.src = order[i];
-    video.play();
-    i++;
-  }
-
-  video.addEventListener("ended", playItem, { once: true });
-  playItem();
+  index = 0;
 }
 
-// PLAY button
+// PLAY NEXT
+function playNext() {
+  if (index >= playlist.length) {
+    createPlaylist();
+  }
+  video.src = playlist[index];
+  video.play();
+  index++;
+}
+
+// PLAY BUTTON
 playBtn.addEventListener("click", () => {
   playBtn.style.display = "none";
+  createPlaylist();
   playNext();
 });
 
-// Fullscreen button
+// FULLSCREEN
 fullscreenBtn.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
@@ -162,14 +161,13 @@ fullscreenBtn.addEventListener("click", () => {
   }
 });
 
-// Hide fullscreen button when in fullscreen
+// HIDE FULLSCREEN BUTTON IN FULLSCREEN
 document.addEventListener("fullscreenchange", () => {
-  if (document.fullscreenElement) {
-    fullscreenBtn.style.display = "none";
-  } else {
-    fullscreenBtn.style.display = "block";
-  }
+  fullscreenBtn.style.display = document.fullscreenElement ? "none" : "block";
 });
+
+// NEXT VIDEO
+video.addEventListener("ended", playNext);
 </script>
 
 </body>
