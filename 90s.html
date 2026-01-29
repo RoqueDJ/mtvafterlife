@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MTV Afterlife 90s - 24/7</title>
+
 <style>
   body {
     margin: 0;
@@ -36,7 +37,7 @@
     right: 15px;
     padding: 10px 15px;
     font-size: 18px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255,255,255,0.2);
     color: white;
     border: 2px solid white;
     border-radius: 10px;
@@ -58,12 +59,41 @@
     cursor: pointer;
     z-index: 10;
   }
+
+  /* 🎵 PLAYING NOW — MTV 90s STYLE */
+  #nowPlaying {
+    position: absolute;
+    bottom: 28px;
+    left: 24px;
+
+    background: rgba(0,0,0,0.85);
+    color: white;
+
+    padding: 18px 28px;
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 0.6px;
+
+    border: 2px solid white;
+
+    transform: translateX(-130%);
+    opacity: 0;
+
+    transition:
+      transform 0.6s ease,
+      opacity 0.4s ease;
+
+    z-index: 10;
+  }
 </style>
 </head>
+
 <body>
 
-<img id="mtvLogo" src="mtv-afterlife-90s-bug.png" alt="MTV Logo">
+<img id="mtvLogo" src="mtv-afterlife-90s-bug.png">
 <video id="video" playsinline></video>
+
+<div id="nowPlaying"></div>
 
 <button id="playBtn">PLAY</button>
 <button id="fullscreenBtn">FULLSCREEN</button>
@@ -72,37 +102,47 @@
 const video = document.getElementById("video");
 const playBtn = document.getElementById("playBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
+const nowPlaying = document.getElementById("nowPlaying");
 
-// SONGS (25)
+/* 🎵 SONG FILES */
 const songs = [
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song1.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song2.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song3.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song4.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song5.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song6.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song7.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song8.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song9.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song10.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song11.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song12.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song13.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song14.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song15.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song16.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song17.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song18.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song19.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song20.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song21.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song22.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song23.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song24.mp4",
-  "https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/song25.mp4"
-];
+  "song1","song2","song3","song4","song5",
+  "song6","song7","song8","song9","song10",
+  "song11","song12","song13","song14","song15",
+  "song16","song17","song18","song19","song20",
+  "song21","song22","song23","song24","song25"
+].map(s => `https://ia600600.us.archive.org/1/items/mtv-afterlife-songs/${s}.mp4`);
 
-// ADS (4)
+/* 📝 SONG TITLES */
+const songTitles = {
+  song1: "Eiffel 65 – Blue (Da Ba Dee)",
+  song2: "Eiffel 65 – Move Your Body",
+  song3: "Eiffel 65 – Too Much of Heaven",
+  song4: "Scatman John – Scatman",
+  song5: "Aqua – Barbie Girl",
+  song6: "Aqua – Doctor Jones",
+  song7: "Aqua – Turn Back Time",
+  song8: "Ace of Base – All That She Wants",
+  song9: "Ace of Base – The Sign",
+  song10: "Ace of Base – Don't Turn Around",
+  song11: "Corona – The Rhythm of the Night",
+  song12: "Scatman John – Scatman's World",
+  song13: "Sash! – Encore Une Fois",
+  song14: "Real McCoy – Another Night",
+  song15: "Real McCoy – Run Away",
+  song16: "Snap! – Rhythm Is a Dancer",
+  song17: "Snap! – The Power",
+  song18: "2 Unlimited – No Limit",
+  song19: "Dr. Alban – It's My Life",
+  song20: "ATC – Around the World",
+  song21: "Vengaboys – Boom, Boom, Boom, Boom!",
+  song22: "Technotronic – Pump Up the Jam",
+  song23: "Culture Beat – Mr. Vain",
+  song24: "Haddaway – What Is Love",
+  song25: "Robert Miles – Children"
+};
+
+/* 📺 ADS & BUMPER */
 const ads = [
   "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad1.mp4",
   "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad2.mp4",
@@ -110,63 +150,91 @@ const ads = [
   "https://ia801703.us.archive.org/25/items/mtv-afterlife-90s-ads/ad4.mp4"
 ];
 
-// BUMPER (1)
 const bumpers = [
   "https://ia600100.us.archive.org/7/items/mtv-afterlife-90s-bumpers/bumper1.mp4"
 ];
 
-let index = 0;
 let playlist = [];
+let index = 0;
 
-// RANDOM SELECT
+/* 🎲 RANDOM */
 function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// CREATE PLAYLIST WITH THE CORRECT PATTERN
+/* 📀 CREATE PLAYLIST */
 function createPlaylist() {
   playlist = [
-    getRandom(songs),   // song 1
-    getRandom(songs),   // song 2
-    getRandom(ads),     // ad
-    getRandom(songs),   // song 3
-    getRandom(bumpers)  // bumper
+    getRandom(songs),
+    getRandom(songs),
+    getRandom(ads),
+    getRandom(songs),
+    getRandom(bumpers)
   ];
   index = 0;
 }
 
-// PLAY NEXT
+/* ▶️ PLAY NEXT */
 function playNext() {
-  if (index >= playlist.length) {
-    createPlaylist();
-  }
+  if (index >= playlist.length) createPlaylist();
   video.src = playlist[index];
   video.play();
   index++;
 }
 
-// PLAY BUTTON
+/* 🎵 NOW PLAYING HELPERS */
+function showNowPlaying(text) {
+  nowPlaying.textContent = text;
+  nowPlaying.style.opacity = "1";
+  nowPlaying.style.transform = "translateX(0)";
+}
+
+function hideNowPlaying() {
+  nowPlaying.style.opacity = "0";
+  nowPlaying.style.transform = "translateX(-130%)";
+}
+
+/* 🎶 PLAYING NOW LOGIC */
+video.addEventListener("loadedmetadata", () => {
+  const isSong = video.src.includes("mtv-afterlife-songs");
+  if (!isSong) {
+    hideNowPlaying();
+    return;
+  }
+
+  const songKey = video.src.match(/song\d+/)?.[0];
+  const title = songTitles[songKey];
+  if (!title) return;
+
+  // show at start
+  showNowPlaying(title);
+  setTimeout(hideNowPlaying, 5000);
+
+  // show again near the end
+  const endTime = Math.max(video.duration - 6, 1);
+  setTimeout(() => {
+    showNowPlaying(title);
+    setTimeout(hideNowPlaying, 5000);
+  }, endTime * 1000);
+});
+
+/* BUTTONS */
 playBtn.addEventListener("click", () => {
   playBtn.style.display = "none";
   createPlaylist();
   playNext();
 });
 
-// FULLSCREEN
 fullscreenBtn.addEventListener("click", () => {
-  if (document.fullscreenElement) {
-    document.exitFullscreen();
-  } else {
-    document.documentElement.requestFullscreen();
-  }
+  document.fullscreenElement
+    ? document.exitFullscreen()
+    : document.documentElement.requestFullscreen();
 });
 
-// HIDE FULLSCREEN BUTTON IN FULLSCREEN
 document.addEventListener("fullscreenchange", () => {
-  fullscreenBtn.style.display = document.fullscreenElement ? "none" : "block";
+  fullscreenBtn.style.display = document.fullcreenElement ? "none" : "block";
 });
 
-// NEXT VIDEO
 video.addEventListener("ended", playNext);
 </script>
 
