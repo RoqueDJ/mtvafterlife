@@ -8,7 +8,7 @@
     body {
       margin: 0;
       padding: 0;
-      background: #000;
+      background: #3D84B8; /* NEW BACKGROUND COLOR */
       color: #fff;
       font-family: Arial, sans-serif;
       display: flex;
@@ -19,13 +19,29 @@
     }
 
     .logo {
-      margin-bottom: 30px;
+      margin-bottom: 10px; /* slightly reduced to fit sponsor line */
       text-align: center;
     }
 
     .logo img {
       width: 320px;
       max-width: 80%;
+    }
+
+    /* ⭐ SPONSOR TAG */
+    #sponsorTag {
+      font-size: 14px;
+      color: #ffffff;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #sponsorTag img {
+      height: 22px;
+      filter: brightness(0) invert(1); /* makes logo white if needed */
     }
 
     .title {
@@ -102,6 +118,12 @@
 
   <div class="logo">
     <img src="assets/images/mtv-afterlife-logo.png" alt="MTV Afterlife Logo">
+  </div>
+
+  <!-- ⭐ SPONSOR TAG -->
+  <div id="sponsorTag">
+    <img src="assets/images/demm.png">
+    <span><b>|</b> Unofficial Sponsor of the <b>Super Bowl Halftime Show</b></span>
   </div>
 
   <div class="title">Choose your channel:</div>
