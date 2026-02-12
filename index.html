@@ -19,7 +19,7 @@
     }
 
     .logo {
-      margin-bottom: 10px; /* slightly reduced to fit sponsor line */
+      margin-bottom: 10px;
       text-align: center;
     }
 
@@ -40,7 +40,7 @@
     }
 
     #sponsorTag img {
-      height: 65px; /* makes logo white if needed */
+      height: 65px;
     }
 
     .title {
@@ -104,13 +104,40 @@
     }
 
     @media (max-width: 600px) {
-      .title {
-        font-size: 20px;
-      }
-      .channel-text {
-        font-size: 16px;
-      }
+      .title { font-size: 20px; }
+      .channel-text { font-size: 16px; }
     }
+
+    /* 📰 NEWS TICKER BAR */
+    #newsTicker {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: black;
+      color: white;
+      font-size: 18px;
+      font-family: Arial, sans-serif;
+      padding: 8px 0;
+      overflow: hidden;
+      z-index: 9999;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scrollNews 25s linear infinite;
+    }
+
+    .ticker-content span {
+      padding-right: 25px;
+    }
+
+    @keyframes scrollNews {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
   </style>
 </head>
 <body>
@@ -119,7 +146,6 @@
     <img src="assets/images/mtv-afterlife-logo-pr.png" alt="MTV Afterlife Logo">
   </div>
 
-  <!-- ⭐ SPONSOR TAG -->
   <div id="sponsorTag">
     <img src="assets/images/demm.png">
     <span><b>|</b> Unofficial Sponsor of the <b>Super Bowl Halftime Show</b></span>
@@ -129,7 +155,6 @@
 
   <div class="buttons">
 
-    <!-- 90s goes to its page -->
     <a class="channel-btn" href="/90s.html">
       <div class="channel-logo">
         <img src="assets/images/mtv-afterlife-90s-logo.png" alt="90s Logo">
@@ -137,7 +162,6 @@
       <div class="channel-text">MTV Afterlife 90s</div>
     </a>
 
-    <!-- Coming soon buttons -->
     <div class="channel-btn" onclick="comingSoon()">
       <div class="channel-logo">
         <img src="mtv-afterlife-80s-logo.png" alt="80s Logo">
@@ -154,15 +178,29 @@
 
   </div>
 
-  <!-- message area -->
   <div class="message" id="message"></div>
 
   <script>
     function comingSoon() {
-      document.getElementById("message").textContent =
-        "Coming soon!";
+      document.getElementById("message").textContent = "Coming soon!";
     }
   </script>
+
+<!-- 📰 NEWS TICKER -->
+<div id="newsTicker">
+  <div class="ticker-content">
+    <span>🎵 MTV Afterlife 80s soon to launch!</span>
+
+    <!-- 🔵 REPLACED EMOJI WITH IMAGE ICON -->
+    <span>
+      <img src="assets/images/mtv-badbunny.png" 
+           style="height:45px; vertical-align:middle; margin-right:5px;">
+      Bad Bunny special channel launching tomorrow!
+    </span>
+
+    <span>🎧 More genres and channels will pop up soon! Genres like K-Pop, Country, etc. coming to MTV Afterlife.</span>
+  </div>
+</div>
 
 </body>
 </html>
