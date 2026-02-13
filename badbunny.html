@@ -60,7 +60,6 @@
     z-index: 10;
   }
 
-  /* 🎵 NOW PLAYING */
   #nowPlaying {
     position: absolute;
     bottom: 28px;
@@ -104,18 +103,45 @@ const playBtn = document.getElementById("playBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 const nowPlaying = document.getElementById("nowPlaying");
 
-/* 🎵 SONG TITLES */
+/* 🎵 BAD BUNNY SONG LIST */
+const songs = Array.from({ length: 17 }, (_, i) =>
+  `https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song${i + 1}.mp4`
+);
+
+/* 🎵 TITLES */
 const songTitles = {
-  song13: "PIToRRO DE COCO",
-  song16: "DtMF"
+  song1: "NUEVAYoL",
+  song2: "VOY A LLEVARTE PA PR",
+  song3: "BAILE INOLVIDABLE",
+  song4: "PERFUMITO NUEVO",
+  song5: "WELTITA",
+  song6: "VELDÁ",
+  song7: "EL CLUB",
+  song8: "KETU TECRÉ",
+  song9: "BOKETE",
+  song10: "KLOUFRENS",
+  song11: "TURISTA",
+  song12: "CAFÉ CON RON",
+  song13: "PITORRO DE COCO",
+  song14: "LO QUE LE PASÓ A HAWAII",
+  song15: "EOO",
+  song16: "DTMF",
+  song17: "LA MUDANZA"
 };
 
-/* 🎥 FIXED LAUNCH PLAYLIST */
-const playlist = [
-  "https://ia800504.us.archive.org/25/items/mtv-afterlife-bad-bunny-bumpers/bumper1.mp4",
-  "https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song13.mp4",
-  "https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song16.mp4",
+/* 📺 BUMPER */
+const bumpers = [
   "https://ia800504.us.archive.org/25/items/mtv-afterlife-bad-bunny-bumpers/bumper1.mp4"
+];
+
+/* 🔥 LAUNCH SEQUENCE
+   bumper1 → song13 → song16 → bumper1
+*/
+let playlist = [
+  bumpers[0],
+  songs[12],  // song13
+  songs[15],  // song16
+  bumpers[0]
 ];
 
 let index = 0;
@@ -123,7 +149,7 @@ let index = 0;
 /* ▶️ PLAY NEXT */
 function playNext() {
   if (index >= playlist.length) {
-    index = 0; // stop at last bumper or loop
+    index = 0; // loop launch playlist
   }
 
   video.src = playlist[index];
@@ -131,32 +157,29 @@ function playNext() {
   index++;
 }
 
-/* 🎵 NOW PLAYING */
-function showNowPlaying(text) {
-  nowPlaying.textContent = text;
-  nowPlaying.style.opacity = "1";
-  nowPlaying.style.transform = "translateX(0)";
-}
-
-function hideNowPlaying() {
-  nowPlaying.style.opacity = "0";
-  nowPlaying.style.transform = "translateX(-130%)";
-}
-
-/* 🧠 DETECT SONG */
+/* 🎶 NOW PLAYING */
 video.addEventListener("loadedmetadata", () => {
   const match = video.src.match(/song(\d+)/);
   if (!match) {
-    hideNowPlaying();
+    // bumper — hide UI
+    nowPlaying.style.opacity = "0";
+    nowPlaying.style.transform = "translateX(-130%)";
     return;
   }
 
-  const key = "song" + match[1];
+  const key = `song${match[1]}`;
   const title = songTitles[key];
   if (!title) return;
 
-  showNowPlaying(title);
-  setTimeout(hideNowPlaying, 5000);
+  // show
+  nowPlaying.textContent = title;
+  nowPlaying.style.opacity = "1";
+  nowPlaying.style.transform = "translateX(0)";
+
+  setTimeout(() => {
+    nowPlaying.style.opacity = "0";
+    nowPlaying.style.transform = "translateX(-130%)";
+  }, 5000);
 });
 
 /* BUTTONS */
@@ -171,12 +194,8 @@ fullscreenBtn.addEventListener("click", () => {
     : document.documentElement.requestFullscreen();
 });
 
-document.addEventListener("fullscreenchange", () => {
-  fullscreenBtn.style.display = document.fullscreenElement ? "none" : "block";
-});
-
 video.addEventListener("ended", playNext);
 </script>
 
 </body>
-  </html>
+</html>
