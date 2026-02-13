@@ -1,201 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTV Afterlife Bad Bunny - 24/7</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MTV Afterlife</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #3D84B8; /* NEW BACKGROUND COLOR */
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
 
-<style>
-  body {
-    margin: 0;
-    background: black;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
+    .logo {
+      margin-bottom: 10px;
+      text-align: center;
+    }
 
-  video {
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain;
-  }
+    .logo img {
+      width: 320px;
+      max-width: 80%;
+    }
 
-  #mtvLogo {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 120px;
-    z-index: 10;
-  }
+    /* ⭐ SPONSOR TAG */
+    #sponsorTag {
+      font-size: 14px;
+      color: #ffffff;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
 
-  #fullscreenBtn {
-    position: absolute;
-    bottom: 90px;
-    right: 15px;
-    padding: 10px 15px;
-    font-size: 18px;
-    background: rgba(255,255,255,0.2);
-    color: white;
-    border: 2px solid white;
-    border-radius: 10px;
-    cursor: pointer;
-    z-index: 10;
-  }
+    #sponsorTag img {
+      height: 65px;
+    }
 
-  #playBtn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 15px 30px;
-    font-size: 26px;
-    background: #ff0000;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    z-index: 10;
-  }
+    .title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
 
-  #nowPlaying {
-    position: absolute;
-    bottom: 28px;
-    left: 24px;
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 80%;
+      max-width: 500px;
+    }
 
-    background: rgba(0,0,0,0.85);
-    color: white;
+    .channel-btn {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 12px 16px;
+      border-radius: 15px;
+      border: 2px solid #fff;
+      background: rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+      text-decoration: none;
+      color: #fff;
+    }
 
-    padding: 18px 28px;
-    font-size: 24px;
-    font-family: Arial, Helvetica, sans-serif;
-    letter-spacing: 0.6px;
+    .channel-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
 
-    border: 2px solid white;
+    .channel-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #111;
+    }
 
-    transform: translateX(-130%);
-    opacity: 0;
+    .channel-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-    transition:
-      transform 0.6s ease,
-      opacity 0.4s ease;
+    .channel-text {
+      font-size: 18px;
+      font-weight: bold;
+    }
 
-    z-index: 10;
-  }
-</style>
+    .message {
+      margin-top: 20px;
+      font-size: 16px;
+      opacity: 0.8;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .title { font-size: 20px; }
+      .channel-text { font-size: 16px; }
+    }
+
+    /* 📰 NEWS TICKER BAR */
+    #newsTicker {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: black;
+      color: white;
+      font-size: 18px;
+      font-family: Arial, sans-serif;
+      padding: 8px 0;
+      overflow: hidden;
+      z-index: 9999;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scrollNews 25s linear infinite;
+    }
+
+    .ticker-content span {
+      padding-right: 25px;
+    }
+
+    @keyframes scrollNews {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+  </style>
 </head>
-
 <body>
 
-<img id="mtvLogo" src="assets/images/mtv-badbunny.png">
-<video id="video" playsinline></video>
+  <div class="logo">
+    <img src="assets/images/mtv-afterlife-logo-pr.png" alt="MTV Afterlife Logo">
+  </div>
 
-<div id="nowPlaying"></div>
+  <div id="sponsorTag">
+    <img src="assets/images/demm.png">
+    <span><b>|</b> Unofficial Sponsor of the <b>Super Bowl Halftime Show</b></span>
+  </div>
 
-<button id="playBtn">PLAY</button>
-<button id="fullscreenBtn">FULLSCREEN</button>
+  <div class="title">Choose your channel:</div>
 
-<script>
-const video = document.getElementById("video");
-const playBtn = document.getElementById("playBtn");
-const fullscreenBtn = document.getElementById("fullscreenBtn");
-const nowPlaying = document.getElementById("nowPlaying");
+  <div class="buttons">
+ <!-- ⭐ MTV Afterlife Bad Bunny -->
+    <a class="channel-btn" href="/badbunny.html">
+      <div class="channel-logo">
+        <img src="assets/images/mtv-badbunny.png" alt="Bad Bunny Logo">
+      </div>
+      <div class="channel-text">MTV Afterlife Bad Bunny</div>
+    </a>
+    
+    <a class="channel-btn" href="/90s.html">
+      <div class="channel-logo">
+        <img src="assets/images/mtv-afterlife-90s-logo.png" alt="90s Logo">
+      </div>
+      <div class="channel-text">MTV Afterlife 90s</div>
+    </a>
 
-/* 🎵 BAD BUNNY SONG LIST */
-const songs = Array.from({ length: 17 }, (_, i) =>
-  `https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song${i + 1}.mp4`
-);
+    <div class="channel-btn" onclick="comingSoon()">
+      <div class="channel-logo">
+        <img src="mtv-afterlife-80s-logo.png" alt="80s Logo">
+      </div>
+      <div class="channel-text">MTV Afterlife 80s</div>
+    </div>
 
-/* 🎵 TITLES */
-const songTitles = {
-  song1: "NUEVAYoL",
-  song2: "VOY A LLEVARTE PA PR",
-  song3: "BAILE INOLVIDABLE",
-  song4: "PERFUMITO NUEVO",
-  song5: "WELTITA",
-  song6: "VELDÁ",
-  song7: "EL CLUB",
-  song8: "KETU TECRÉ",
-  song9: "BOKETE",
-  song10: "KLOUFRENS",
-  song11: "TURISTA",
-  song12: "CAFÉ CON RON",
-  song13: "PITORRO DE COCO",
-  song14: "LO QUE LE PASÓ A HAWAII",
-  song15: "EOO",
-  song16: "DTMF",
-  song17: "LA MUDANZA"
-};
+    <div class="channel-btn" onclick="comingSoon()">
+      <div class="channel-logo">
+        <img src="mtv-afterlife-00s-logo.png" alt="00s Logo">
+      </div>
+      <div class="channel-text">MTV Afterlife 00s</div>
+    </div>
 
-/* 📺 BUMPER */
-const bumpers = [
-  "https://ia800504.us.archive.org/25/items/mtv-afterlife-bad-bunny-bumpers/bumper1.mp4"
-];
+  </div>
 
-/* 🔥 LAUNCH SEQUENCE
-   bumper1 → song13 → song16 → bumper1
-*/
-let playlist = [
-  bumpers[0],
-  songs[12],  // song13
-  songs[15],  // song16
-  bumpers[0]
-];
+  <div class="message" id="message"></div>
 
-let index = 0;
+  <script>
+    function comingSoon() {
+      document.getElementById("message").textContent = "Coming soon!";
+    }
+  </script>
 
-/* ▶️ PLAY NEXT */
-function playNext() {
-  if (index >= playlist.length) {
-    index = 0; // loop launch playlist
-  }
+<!-- 📰 NEWS TICKER -->
+<div id="newsTicker">
+  <div class="ticker-content">
+    <span>🎵 MTV Afterlife 80s soon to launch!</span>
 
-  video.src = playlist[index];
-  video.play();
-  index++;
-}
+    <!-- 🔵 REPLACED EMOJI WITH IMAGE ICON -->
+    <span>
+      <img src="assets/images/mtv-badbunny.png" 
+           style="height:45px; vertical-align:middle; margin-right:5px;">
+      Bad Bunny special channel released!
+    </span>
 
-/* 🎶 NOW PLAYING */
-video.addEventListener("loadedmetadata", () => {
-  const match = video.src.match(/song(\d+)/);
-  if (!match) {
-    // bumper — hide UI
-    nowPlaying.style.opacity = "0";
-    nowPlaying.style.transform = "translateX(-130%)";
-    return;
-  }
-
-  const key = `song${match[1]}`;
-  const title = songTitles[key];
-  if (!title) return;
-
-  // show
-  nowPlaying.textContent = title;
-  nowPlaying.style.opacity = "1";
-  nowPlaying.style.transform = "translateX(0)";
-
-  setTimeout(() => {
-    nowPlaying.style.opacity = "0";
-    nowPlaying.style.transform = "translateX(-130%)";
-  }, 5000);
-});
-
-/* BUTTONS */
-playBtn.addEventListener("click", () => {
-  playBtn.style.display = "none";
-  playNext();
-});
-
-fullscreenBtn.addEventListener("click", () => {
-  document.fullscreenElement
-    ? document.exitFullscreen()
-    : document.documentElement.requestFullscreen();
-});
-
-video.addEventListener("ended", playNext);
-</script>
+    <span>🎧 More genres and channels will pop up soon! Genres like K-Pop, Country, etc. coming to MTV Afterlife.</span>
+  </div>
+</div>
 
 </body>
 </html>
