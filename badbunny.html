@@ -85,42 +85,23 @@
     z-index: 10;
   }
 
-  /* SPLASH SCREEN */
+  /* SPLASH IMAGE */
   #splash {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    position: absolute;
+    width: 100vw;
     height: 100vh;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
+    object-fit: cover;
+    z-index: 20;
     opacity: 0;
-    animation: fadeSplash 5s ease forwards;
-  }
-
-  #splash img {
-    width: 60%;
-    max-width: 420px;
-  }
-
-  @keyframes fadeSplash {
-    0%   { opacity: 0; }
-    10%  { opacity: 1; }
-    80%  { opacity: 1; }
-    100% { opacity: 0; visibility: hidden; }
+    transition: opacity 1s ease;
   }
 </style>
 </head>
 
 <body>
 
-<!-- 🌟 SPLASH INTRO -->
-<div id="splash">
-  <img src="assets/images/mtv-badbunny-warning.png" alt="MTV Bad Bunny Intro">
-</div>
+<!-- SPLASH IMAGE -->
+<img id="splash" src="assets/images/splash.png">
 
 <img id="mtvLogo" src="assets/images/mtv-badbunny.png">
 <video id="video" playsinline></video>
@@ -135,31 +116,32 @@ const video = document.getElementById("video");
 const playBtn = document.getElementById("playBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 const nowPlaying = document.getElementById("nowPlaying");
+const splash = document.getElementById("splash");
 
 /* 🎵 BAD BUNNY SONG LIST */
 const songs = Array.from({ length: 17 }, (_, i) =>
   `https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song${i + 1}.mp4`
 );
 
-/* 🎵 TITLES */
+/* 🎵 TITLES (exact capitalization) */
 const songTitles = {
   song1: "NUEVAYoL",
-  song2: "VOY A LLEVARTE PA PR",
-  song3: "BAILE INOLVIDABLE",
-  song4: "PERFUMITO NUEVO",
-  song5: "WELTITA",
-  song6: "VELDÁ",
-  song7: "EL CLUB",
-  song8: "KETU TECRÉ",
-  song9: "BOKETE",
-  song10: "KLOUFRENS",
-  song11: "TURISTA",
-  song12: "CAFÉ CON RON",
-  song13: "PITORRO DE COCO",
-  song14: "LO QUE LE PASÓ A HAWAII",
-  song15: "EOO",
-  song16: "DTMF",
-  song17: "LA MUDANZA"
+  song2: "VOY A LLeVARTE PA PR",
+  song3: "BAILE INoLVIDABLE",
+  song4: "PERFuMITO NUEVO",
+  song5: "WELTiTA",
+  song6: "VeLDÁ",
+  song7: "EL CLúB",
+  song8: "KETU TeCRÉ",
+  song9: "BOKeTE",
+  song10: "KLOuFRENS",
+  song11: "TURiSTA",
+  song12: "CAFé CON RON",
+  song13: "PIToRRO DE COCO",
+  song14: "LO QUE LE PASÓ A HAWAii",
+  song15: "EoO",
+  song16: "DtMF",
+  song17: "LA MuDANZA"
 };
 
 /* 📺 BUMPER */
@@ -167,25 +149,34 @@ const bumpers = [
   "https://ia800504.us.archive.org/25/items/mtv-afterlife-bad-bunny-bumpers/bumper1.mp4"
 ];
 
-/* 🔥 LAUNCH SEQUENCE: bumper1 → song13 → song16 → bumper1 */
-let playlist = [
-  bumpers[0],
-  songs[12],  // song13
-  songs[15],  // song16
-  bumpers[0]
-];
-
+let playlist = [];
 let index = 0;
 
-/* ▶️ PLAY NEXT */
+/* 🎲 GET RANDOM ELEMENT */
+function getRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/* 🔄 CREATE RANDOM PLAYLIST */
+function createPlaylist() {
+  playlist = [
+    bumpers[0],
+    getRandom(songs),
+    getRandom(songs),
+    bumpers[0]
+  ];
+  index = 0;
+}
+
+/* ▶️ PLAY NEXT VIDEO */
 function playNext() {
-  if (index >= playlist.length) index = 0;
+  if (index >= playlist.length) createPlaylist();
   video.src = playlist[index];
   video.play();
   index++;
 }
 
-/* 🎶 NOW PLAYING */
+/* 🎶 NOW PLAYING DISPLAY */
 video.addEventListener("loadedmetadata", () => {
   const match = video.src.match(/song(\d+)/);
   if (!match) {
@@ -193,6 +184,7 @@ video.addEventListener("loadedmetadata", () => {
     nowPlaying.style.transform = "translateX(-130%)";
     return;
   }
+
   const key = `song${match[1]}`;
   const title = songTitles[key];
   if (!title) return;
@@ -210,7 +202,15 @@ video.addEventListener("loadedmetadata", () => {
 /* BUTTONS */
 playBtn.addEventListener("click", () => {
   playBtn.style.display = "none";
-  playNext();
+
+  // SPLASH FADE IN
+  splash.style.opacity = "1";
+
+  setTimeout(() => {
+    splash.style.opacity = "0";
+    createPlaylist();
+    playNext();
+  }, 5000); // splash visible for 5 seconds
 });
 
 fullscreenBtn.addEventListener("click", () => {
@@ -220,18 +220,6 @@ fullscreenBtn.addEventListener("click", () => {
 });
 
 video.addEventListener("ended", playNext);
-
-/* SPLASH LOGIC */
-document.body.style.overflow = "hidden";
-setTimeout(() => {
-  const splash = document.getElementById("splash");
-  splash.style.display = "none";
-  document.body.style.overflow = "auto";
-
-  // Start playlist automatically after splash
-  playBtn.style.display = "none";
-  playNext();
-}, 5000); // 5 seconds
 </script>
 
 </body>
