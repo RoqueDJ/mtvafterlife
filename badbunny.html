@@ -64,24 +64,16 @@
     position: absolute;
     bottom: 28px;
     left: 24px;
-
     background: rgba(0,0,0,0.85);
     color: white;
-
     padding: 18px 28px;
     font-size: 24px;
     font-family: Arial, Helvetica, sans-serif;
     letter-spacing: 0.6px;
-
     border: 2px solid white;
-
     transform: translateX(-130%);
     opacity: 0;
-
-    transition:
-      transform 0.6s ease,
-      opacity 0.4s ease;
-
+    transition: transform 0.6s ease, opacity 0.4s ease;
     z-index: 10;
   }
 
@@ -91,9 +83,10 @@
     width: 100vw;
     height: 100vh;
     object-fit: cover;
-    z-index: 20;
-    opacity: 0;
+    z-index: 1000;
+    opacity: 1;
     transition: opacity 1s ease;
+    pointer-events: none; /* won't block clicks */
   }
 </style>
 </head>
@@ -136,7 +129,7 @@ const songTitles = {
   song9: "BOKeTE",
   song10: "KLOuFRENS",
   song11: "TURiSTA",
-  song12: "CAFé CON RON",
+  song12: "CAFÉ CON RON",
   song13: "PIToRRO DE COCO",
   song14: "LO QUE LE PASÓ A HAWAii",
   song15: "EoO",
@@ -203,14 +196,13 @@ video.addEventListener("loadedmetadata", () => {
 playBtn.addEventListener("click", () => {
   playBtn.style.display = "none";
 
-  // SPLASH FADE IN
-  splash.style.opacity = "1";
-
+  // SPLASH FADE OUT AFTER 5 SECONDS
   setTimeout(() => {
     splash.style.opacity = "0";
+    setTimeout(() => splash.style.display = "none", 1000); // fully hide
     createPlaylist();
     playNext();
-  }, 5000); // splash visible for 5 seconds
+  }, 5000);
 });
 
 fullscreenBtn.addEventListener("click", () => {
@@ -223,4 +215,4 @@ video.addEventListener("ended", playNext);
 </script>
 
 </body>
-</html>
+  </html>
