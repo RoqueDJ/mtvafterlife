@@ -196,13 +196,13 @@ video.addEventListener("loadedmetadata", () => {
 playBtn.addEventListener("click", () => {
   playBtn.style.display = "none";
 
-  // SPLASH FADE OUT AFTER 5 SECONDS
+  // Splash visible for 3 seconds
   setTimeout(() => {
-    splash.style.opacity = "0";
+    splash.style.opacity = "0";              // fade out
     setTimeout(() => splash.style.display = "none", 1000); // fully hide
     createPlaylist();
     playNext();
-  }, 5000);
+  }, 3000);
 });
 
 fullscreenBtn.addEventListener("click", () => {
@@ -215,4 +215,4 @@ video.addEventListener("ended", playNext);
 </script>
 
 </body>
-  </html>
+</html>
