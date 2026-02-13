@@ -84,10 +84,43 @@
 
     z-index: 10;
   }
+
+  /* SPLASH SCREEN */
+  #splash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    opacity: 0;
+    animation: fadeSplash 5s ease forwards;
+  }
+
+  #splash img {
+    width: 60%;
+    max-width: 420px;
+  }
+
+  @keyframes fadeSplash {
+    0%   { opacity: 0; }
+    10%  { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+  }
 </style>
 </head>
 
 <body>
+
+<!-- 🌟 SPLASH INTRO -->
+<div id="splash">
+  <img src="assets/images/mtv-badbunny-warning.png" alt="MTV Bad Bunny Intro">
+</div>
 
 <img id="mtvLogo" src="assets/images/mtv-badbunny.png">
 <video id="video" playsinline></video>
@@ -134,9 +167,7 @@ const bumpers = [
   "https://ia800504.us.archive.org/25/items/mtv-afterlife-bad-bunny-bumpers/bumper1.mp4"
 ];
 
-/* 🔥 LAUNCH SEQUENCE
-   bumper1 → song13 → song16 → bumper1
-*/
+/* 🔥 LAUNCH SEQUENCE: bumper1 → song13 → song16 → bumper1 */
 let playlist = [
   bumpers[0],
   songs[12],  // song13
@@ -148,10 +179,7 @@ let index = 0;
 
 /* ▶️ PLAY NEXT */
 function playNext() {
-  if (index >= playlist.length) {
-    index = 0; // loop launch playlist
-  }
-
+  if (index >= playlist.length) index = 0;
   video.src = playlist[index];
   video.play();
   index++;
@@ -161,17 +189,14 @@ function playNext() {
 video.addEventListener("loadedmetadata", () => {
   const match = video.src.match(/song(\d+)/);
   if (!match) {
-    // bumper — hide UI
     nowPlaying.style.opacity = "0";
     nowPlaying.style.transform = "translateX(-130%)";
     return;
   }
-
   const key = `song${match[1]}`;
   const title = songTitles[key];
   if (!title) return;
 
-  // show
   nowPlaying.textContent = title;
   nowPlaying.style.opacity = "1";
   nowPlaying.style.transform = "translateX(0)";
@@ -195,6 +220,18 @@ fullscreenBtn.addEventListener("click", () => {
 });
 
 video.addEventListener("ended", playNext);
+
+/* SPLASH LOGIC */
+document.body.style.overflow = "hidden";
+setTimeout(() => {
+  const splash = document.getElementById("splash");
+  splash.style.display = "none";
+  document.body.style.overflow = "auto";
+
+  // Start playlist automatically after splash
+  playBtn.style.display = "none";
+  playNext();
+}, 5000); // 5 seconds
 </script>
 
 </body>
