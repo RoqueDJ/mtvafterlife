@@ -76,25 +76,10 @@
     transition: transform 0.6s ease, opacity 0.4s ease;
     z-index: 10;
   }
-
-  /* SPLASH IMAGE */
-  #splash {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    z-index: 1000;
-    opacity: 1;
-    transition: opacity 1s ease;
-    pointer-events: none; /* won't block clicks */
-  }
 </style>
 </head>
 
 <body>
-
-<!-- SPLASH IMAGE -->
-<img id="splash" src="assets/images/mtv-badbunny-warning.png">
 
 <img id="mtvLogo" src="assets/images/mtv-badbunny.png">
 <video id="video" playsinline></video>
@@ -109,7 +94,6 @@ const video = document.getElementById("video");
 const playBtn = document.getElementById("playBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 const nowPlaying = document.getElementById("nowPlaying");
-const splash = document.getElementById("splash");
 
 /* 🎵 BAD BUNNY SONG LIST */
 const songs = Array.from({ length: 17 }, (_, i) =>
@@ -195,14 +179,8 @@ video.addEventListener("loadedmetadata", () => {
 /* BUTTONS */
 playBtn.addEventListener("click", () => {
   playBtn.style.display = "none";
-
-  // Splash visible for 3 seconds
-  setTimeout(() => {
-    splash.style.opacity = "0";              // fade out
-    setTimeout(() => splash.style.display = "none", 1000); // fully hide
-    createPlaylist();
-    playNext();
-  }, 3000);
+  createPlaylist();
+  playNext();
 });
 
 fullscreenBtn.addEventListener("click", () => {
