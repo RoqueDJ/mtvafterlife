@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTV Afterlife Bad Bunny - 24/7</title>
+<title>MTV Afterlife Bad Bunny - Final Broadcast</title>
 
 <style>
   body {
     margin: 0;
     background: black;
     overflow: hidden;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -95,101 +94,80 @@ const playBtn = document.getElementById("playBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 const nowPlaying = document.getElementById("nowPlaying");
 
-/* 🎵 BAD BUNNY SONG LIST */
-const songs = Array.from({ length: 17 }, (_, i) =>
-  `https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song${i + 1}.mp4`
-);
+/* 🎵 FILES */
+const bumper = "https://ia800504.us.archive.org/25/items/mtv-afterlife-bad-bunny-bumpers/bumper1.mp4";
 
-/* 🎵 TITLES (exact capitalization) */
-const songTitles = {
-  song1: "NUEVAYoL",
-  song2: "VOY A LLeVARTE PA PR",
-  song3: "BAILE INoLVIDABLE",
-  song4: "PERFuMITO NUEVO",
-  song5: "WELTiTA",
-  song6: "VeLDÁ",
-  song7: "EL CLúB",
-  song8: "KETU TeCRÉ",
-  song9: "BOKeTE",
-  song10: "KLOuFRENS",
-  song11: "TURiSTA",
-  song12: "CAFÉ CON RON",
-  song13: "PIToRRO DE COCO",
-  song14: "LO QUE LE PASÓ A HAWAii",
-  song15: "EoO",
+const songDTMF = "https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song16.mp4";
+const songBaile = "https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song3.mp4";
+
+const shutdown = "https://ia600907.us.archive.org/29/items/MTV-Afterlife-Bad-Bunny-Shutdown/VN20260412_181837.mp4";
+
+/* 🎵 TITLES */
+const titles = {
   song16: "DtMF",
-  song17: "LA MuDANZA"
+  song3: "BAILE INoLVIDABLE"
 };
 
-/* 📺 BUMPER */
-const bumpers = [
-  "https://ia800504.us.archive.org/25/items/mtv-afterlife-bad-bunny-bumpers/bumper1.mp4"
+/* 📀 FINAL PLAYLIST */
+const playlist = [
+  { src: bumper, type: "bumper" },
+  { src: songDTMF, type: "song", key: "song16" },
+  { src: songBaile, type: "song", key: "song3" },
+  { src: bumper, type: "bumper" },
+  { src: shutdown, type: "shutdown" }
 ];
 
-let playlist = [];
 let index = 0;
 
-/* 🎲 GET RANDOM ELEMENT */
-function getRandom(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-/* 🔄 CREATE RANDOM PLAYLIST */
-function createPlaylist() {
-  playlist = [
-    bumpers[0],
-    getRandom(songs),
-    getRandom(songs),
-    bumpers[0]
-  ];
-  index = 0;
-}
-
-/* ▶️ PLAY NEXT VIDEO */
+/* ▶️ PLAY NEXT */
 function playNext() {
-  if (index >= playlist.length) createPlaylist();
-  video.src = playlist[index];
+  const item = playlist[index];
+  video.src = item.src;
   video.play();
-  index++;
-}
 
-/* 🎶 NOW PLAYING DISPLAY */
-video.addEventListener("loadedmetadata", () => {
-  const match = video.src.match(/song(\d+)/);
-  if (!match) {
-    nowPlaying.style.opacity = "0";
-    nowPlaying.style.transform = "translateX(-130%)";
+  // Shutdown = loop forever
+  if (item.type === "shutdown") {
+    video.loop = true;
     return;
   }
 
-  const key = `song${match[1]}`;
-  const title = songTitles[key];
-  if (!title) return;
+  video.loop = false;
 
-  nowPlaying.textContent = title;
-  nowPlaying.style.opacity = "1";
-  nowPlaying.style.transform = "translateX(0)";
+  // NOW PLAYING
+  if (item.type === "song") {
+    nowPlaying.textContent = titles[item.key];
+    nowPlaying.style.opacity = "1";
+    nowPlaying.style.transform = "translateX(0)";
 
-  setTimeout(() => {
+    setTimeout(() => {
+      nowPlaying.style.opacity = "0";
+      nowPlaying.style.transform = "translateX(-130%)";
+    }, 5000);
+  } else {
     nowPlaying.style.opacity = "0";
     nowPlaying.style.transform = "translateX(-130%)";
-  }, 5000);
-});
+  }
 
-/* BUTTONS */
+  index++;
+}
+
+/* ▶️ START */
 playBtn.addEventListener("click", () => {
   playBtn.style.display = "none";
-  createPlaylist();
   playNext();
 });
 
+/* ⛶ FULLSCREEN */
 fullscreenBtn.addEventListener("click", () => {
   document.fullscreenElement
     ? document.exitFullscreen()
     : document.documentElement.requestFullscreen();
 });
 
-video.addEventListener("ended", playNext);
+/* ⏭️ NEXT VIDEO */
+video.addEventListener("ended", () => {
+  if (!video.loop) playNext();
+});
 </script>
 
 </body>
