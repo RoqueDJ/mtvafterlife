@@ -8,7 +8,7 @@
     body {
       margin: 0;
       padding: 0;
-      background: #3D84B8; /* NEW BACKGROUND COLOR */
+      background: #000;
       color: #fff;
       font-family: Arial, sans-serif;
       display: flex;
@@ -19,28 +19,13 @@
     }
 
     .logo {
-      margin-bottom: 10px;
+      margin-bottom: 30px;
       text-align: center;
     }
 
     .logo img {
       width: 320px;
       max-width: 80%;
-    }
-
-    /* ⭐ SPONSOR TAG */
-    #sponsorTag {
-      font-size: 14px;
-      color: #ffffff;
-      margin-bottom: 25px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-    }
-
-    #sponsorTag img {
-      height: 65px;
     }
 
     .title {
@@ -104,8 +89,12 @@
     }
 
     @media (max-width: 600px) {
-      .title { font-size: 20px; }
-      .channel-text { font-size: 16px; }
+      .title {
+        font-size: 20px;
+      }
+      .channel-text {
+        font-size: 16px;
+      }
     }
 
     /* 📰 NEWS TICKER BAR */
@@ -143,25 +132,13 @@
 <body>
 
   <div class="logo">
-    <img src="assets/images/mtv-afterlife-logo-pr.png" alt="MTV Afterlife Logo">
-  </div>
-
-  <div id="sponsorTag">
-    <img src="assets/images/demm.png">
-    <span><b>|</b> Unofficial Sponsor of the <b>Super Bowl Halftime Show</b></span>
+    <img src="assets/images/mtv-afterlife-logo.png" alt="MTV Afterlife Logo">
   </div>
 
   <div class="title">Choose your channel:</div>
 
   <div class="buttons">
- <!-- ⭐ MTV Afterlife Bad Bunny -->
-    <a class="channel-btn" href="/badbunny.html">
-      <div class="channel-logo">
-        <img src="assets/images/mtv-badbunny.png" alt="Bad Bunny Logo">
-      </div>
-      <div class="channel-text">MTV Afterlife Bad Bunny</div>
-    </a>
-    
+
     <a class="channel-btn" href="/90s.html">
       <div class="channel-logo">
         <img src="assets/images/mtv-afterlife-90s-logo.png" alt="90s Logo">
@@ -189,25 +166,25 @@
 
   <script>
     function comingSoon() {
-      document.getElementById("message").textContent = "Coming soon!";
+      document.getElementById("message").textContent =
+        "Coming soon!";
     }
   </script>
 
-<!-- 📰 NEWS TICKER -->
-<div id="newsTicker">
-  <div class="ticker-content">
-    <span>🎵 MTV Afterlife 80s soon to launch!</span>
+  <!-- 📰 NEWS TICKER -->
+  <div id="newsTicker">
+    <div class="ticker-content">
+      <span>🎵 MTV Afterlife 80s soon to launch!</span>
 
-    <!-- 🔵 REPLACED EMOJI WITH IMAGE ICON -->
-    <span>
-      <img src="assets/images/mtv-badbunny.png" 
-           style="height:45px; vertical-align:middle; margin-right:5px;">
-      MTV Afterlife Bad Bunny has shut down. Thanks for watching!
-    </span>
+      <span>
+        <img src="assets/images/mtv-badbunny.png" 
+             style="height:45px; vertical-align:middle; margin-right:5px;">
+        MTV Afterlife Bad Bunny has shut down. Thanks for watching!
+      </span>
 
-    <span>🎧 More genres and channels will pop up soon! Genres like K-Pop, Country, etc. coming to MTV Afterlife.</span>
+      <span>🎧 More genres and channels will pop up soon! Genres like K-Pop, Country, etc. coming to MTV Afterlife.</span>
+    </div>
   </div>
-</div>
 
 </body>
 </html>
