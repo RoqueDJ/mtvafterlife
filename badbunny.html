@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MTV Afterlife Bad Bunny - Shutdown</title>
+<title>MTV Afterlife Bad Bunny - Final Broadcast</title>
 
 <style>
   body {
@@ -30,6 +30,20 @@
     z-index: 10;
   }
 
+  #fullscreenBtn {
+    position: absolute;
+    bottom: 90px;
+    right: 15px;
+    padding: 10px 15px;
+    font-size: 18px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 10;
+  }
+
   #playBtn {
     position: absolute;
     top: 50%;
@@ -44,31 +58,116 @@
     cursor: pointer;
     z-index: 10;
   }
+
+  #nowPlaying {
+    position: absolute;
+    bottom: 28px;
+    left: 24px;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 18px 28px;
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    letter-spacing: 0.6px;
+    border: 2px solid white;
+    transform: translateX(-130%);
+    opacity: 0;
+    transition: transform 0.6s ease, opacity 0.4s ease;
+    z-index: 10;
+  }
 </style>
 </head>
 
 <body>
 
 <img id="mtvLogo" src="assets/images/mtv-badbunny.png">
+<video id="video" playsinline></video>
 
-<video id="video" playsinline loop></video>
+<div id="nowPlaying"></div>
 
 <button id="playBtn">PLAY</button>
+<button id="fullscreenBtn">FULLSCREEN</button>
 
 <script>
 const video = document.getElementById("video");
 const playBtn = document.getElementById("playBtn");
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+const nowPlaying = document.getElementById("nowPlaying");
 
-/* 📴 SHUTDOWN VIDEO */
+/* 🎵 FILES */
+const bumper = "https://ia800504.us.archive.org/25/items/mtv-afterlife-bad-bunny-bumpers/bumper1.mp4";
+
+const songDTMF = "https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song16.mp4";
+const songBaile = "https://ia801403.us.archive.org/30/items/mtv-afterlife-bad-bunny-songs/song3.mp4";
+
 const shutdown = "https://ia600907.us.archive.org/29/items/MTV-Afterlife-Bad-Bunny-Shutdown/VN20260412_181837.mp4";
+
+/* 🎵 TITLES */
+const titles = {
+  song16: "DtMF",
+  song3: "BAILE INoLVIDABLE"
+};
+
+/* 📀 FINAL PLAYLIST */
+const playlist = [
+  { src: bumper, type: "bumper" },
+  { src: songBaile, type: "song", key: "song3" },
+  { src: bumper, type: "bumper" },
+  { src: shutdown, type: "shutdown" }
+];
+
+let index = 0;
+
+/* ▶️ PLAY NEXT */
+function playNext() {
+  const item = playlist[index];
+  video.src = item.src;
+  video.play();
+
+  // Shutdown = loop forever
+  if (item.type === "shutdown") {
+    video.loop = true;
+    return;
+  }
+
+  video.loop = false;
+
+  // NOW PLAYING
+  if (item.type === "song") {
+    nowPlaying.textContent = titles[item.key];
+    nowPlaying.style.opacity = "1";
+    nowPlaying.style.transform = "translateX(0)";
+
+    setTimeout(() => {
+      nowPlaying.style.opacity = "0";
+      nowPlaying.style.transform = "translateX(-130%)";
+    }, 5000);
+  } else {
+    nowPlaying.style.opacity = "0";
+    nowPlaying.style.transform = "translateX(-130%)";
+  }
+
+  index++;
+}
 
 /* ▶️ START */
 playBtn.addEventListener("click", () => {
   playBtn.style.display = "none";
-  video.src = shutdown;
-  video.play();
+  playNext();
+});
+
+/* ⛶ FULLSCREEN */
+fullscreenBtn.addEventListener("click", () => {
+  document.fullscreenElement
+    ? document.exitFullscreen()
+    : document.documentElement.requestFullscreen();
+});
+
+/* ⏭️ NEXT VIDEO */
+video.addEventListener("ended", () => {
+  if (!video.loop) playNext();
 });
 </script>
 
 </body>
-</html>
+  </html>
