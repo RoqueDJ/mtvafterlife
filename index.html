@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MTV Afterlife</title>
+
   <style>
     body {
       margin: 0;
@@ -92,99 +93,274 @@
       .title {
         font-size: 20px;
       }
+
       .channel-text {
         font-size: 16px;
       }
     }
 
-    /* 📰 NEWS TICKER BAR */
-    #newsTicker {
+
+    /* ============================= */
+    /* MTV AFTERLIFE ANNOUNCEMENT */
+    /* ============================= */
+
+    #announcementOverlay {
       position: fixed;
-      bottom: 0;
-      left: 0;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      z-index: 20000;
+    }
+
+    .announcement-box {
+      position: relative;
       width: 100%;
-      background: black;
-      color: white;
+      max-width: 650px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-sizing: border-box;
+
+      background: #0b0b0b;
+      border: 2px solid #fff;
+      border-radius: 18px;
+      padding: 35px;
+      box-shadow: 0 0 35px rgba(255, 255, 255, 0.15);
+    }
+
+    .announcement-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+
+      width: 40px;
+      height: 40px;
+
+      border: none;
+      background: transparent;
+      color: #fff;
+
+      font-size: 30px;
+      line-height: 40px;
+      cursor: pointer;
+
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .announcement-close:hover {
+      opacity: 0.7;
+      transform: scale(1.1);
+    }
+
+    .announcement-title {
+      font-size: 27px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      padding-right: 40px;
+    }
+
+    .announcement-date {
+      font-size: 15px;
+      opacity: 0.7;
+      margin-bottom: 25px;
+    }
+
+    .announcement-box p {
+      font-size: 17px;
+      line-height: 1.6;
+      margin: 0 0 18px 0;
+    }
+
+    .announcement-final {
+      margin-top: 25px;
+      text-align: center;
       font-size: 18px;
-      font-family: Arial, sans-serif;
-      padding: 8px 0;
-      overflow: hidden;
-      z-index: 9999;
+      font-weight: bold;
     }
 
-    .ticker-content {
-      display: inline-block;
-      white-space: nowrap;
-      animation: scrollNews 25s linear infinite;
+    .announcement-final strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 21px;
     }
 
-    .ticker-content span {
-      padding-right: 25px;
-    }
 
-    @keyframes scrollNews {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+    /* ============================= */
+    /* MOBILE ANNOUNCEMENT */
+    /* ============================= */
+
+    @media (max-width: 600px) {
+      .announcement-box {
+        padding: 30px 22px;
+        border-radius: 15px;
+      }
+
+      .announcement-title {
+        font-size: 23px;
+      }
+
+      .announcement-box p {
+        font-size: 15px;
+      }
     }
 
   </style>
 </head>
+
 <body>
 
-  <div class="logo">
-    <img src="assets/images/mtv-afterlife-logo.png" alt="MTV Afterlife Logo">
+
+  <!-- ================================= -->
+  <!-- MTV AFTERLIFE ANNOUNCEMENT POPUP -->
+  <!-- ================================= -->
+
+  <div id="announcementOverlay">
+
+    <div class="announcement-box">
+
+      <button
+        class="announcement-close"
+        onclick="closeAnnouncement()"
+        aria-label="Close announcement">
+        ×
+      </button>
+
+      <div class="announcement-title">
+        MTV Afterlife — Service Update
+      </div>
+
+      <div class="announcement-date">
+        October 11, 2026 — 8:00 PM AST
+      </div>
+
+      <p>
+        MTV Afterlife will no longer be receiving updates
+        <strong>until further notice.</strong>
+      </p>
+
+      <p>
+        This decision has been made after no new channels have
+        been created, no updates have been made, and no news has
+        been released since the recent shutdown of
+        <strong>MTV Afterlife Bad Bunny.</strong>
+      </p>
+
+      <p>
+        After October 11, <strong>mtv-afterlife.netlify.app</strong>,
+        also known as MTV Afterlife, will no longer receive updates.
+        The only channel expected to remain operational will be
+        <strong>MTV Afterlife 90s.</strong>
+      </p>
+
+      <p>
+        There is a possibility that, if viewership continues to decline,
+        <strong>
+          MTV Afterlife will be forced to shut down completely
+          on December 31, 2026, at 12:00 AM AST.
+        </strong>
+      </p>
+
+      <p>
+        If the project shuts down, its files will remain hosted online
+        on GitHub. However, this is a separate plan and will only happen
+        if the project continues to decline.
+      </p>
+
+      <div class="announcement-final">
+        We thank you for watching.
+
+        <strong>
+          And remember:<br>
+          In MTV Afterlife, you can rock and roll with no end.
+        </strong>
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="title">Choose your channel:</div>
+
+  <!-- MTV AFTERLIFE MAIN PAGE -->
+
+  <div class="logo">
+    <img
+      src="assets/images/mtv-afterlife-logo.png"
+      alt="MTV Afterlife Logo">
+  </div>
+
+  <div class="title">
+    Choose your channel:
+  </div>
 
   <div class="buttons">
 
     <a class="channel-btn" href="/90s.html">
+
       <div class="channel-logo">
-        <img src="assets/images/mtv-afterlife-90s-logo.png" alt="90s Logo">
+        <img
+          src="assets/images/mtv-afterlife-90s-logo.png"
+          alt="90s Logo">
       </div>
-      <div class="channel-text">MTV Afterlife 90s</div>
+
+      <div class="channel-text">
+        MTV Afterlife 90s
+      </div>
+
     </a>
 
-    <div class="channel-btn" onclick="comingSoon()">
-      <div class="channel-logo">
-        <img src="mtv-afterlife-80s-logo.png" alt="80s Logo">
-      </div>
-      <div class="channel-text">MTV Afterlife 80s</div>
-    </div>
 
     <div class="channel-btn" onclick="comingSoon()">
+
       <div class="channel-logo">
-        <img src="mtv-afterlife-00s-logo.png" alt="00s Logo">
+        <img
+          src="mtv-afterlife-80s-logo.png"
+          alt="80s Logo">
       </div>
-      <div class="channel-text">MTV Afterlife 00s</div>
+
+      <div class="channel-text">
+        MTV Afterlife 80s
+      </div>
+
+    </div>
+
+
+    <div class="channel-btn" onclick="comingSoon()">
+
+      <div class="channel-logo">
+        <img
+          src="mtv-afterlife-00s-logo.png"
+          alt="00s Logo">
+      </div>
+
+      <div class="channel-text">
+        MTV Afterlife 00s
+      </div>
+
     </div>
 
   </div>
 
+
   <div class="message" id="message"></div>
 
+
   <script>
+
     function comingSoon() {
       document.getElementById("message").textContent =
         "Coming soon!";
     }
+
+
+    function closeAnnouncement() {
+      document.getElementById("announcementOverlay").style.display =
+        "none";
+    }
+
   </script>
-
-  <!-- 📰 NEWS TICKER -->
-  <div id="newsTicker">
-    <div class="ticker-content">
-      <span>🎵 MTV Afterlife 80s soon to launch!</span>
-
-      <span>
-        <img src="assets/images/mtv-badbunny.png" 
-             style="height:45px; vertical-align:middle; margin-right:5px;">
-        MTV Afterlife Bad Bunny has shut down. Thanks for watching!
-      </span>
-
-      <span>🎧 More genres and channels will pop up soon! Genres like K-Pop, Country, etc. coming to MTV Afterlife.</span>
-    </div>
-  </div>
 
 </body>
 </html>
